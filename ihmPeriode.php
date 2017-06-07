@@ -1,3 +1,6 @@
+<?php
+require 'CControleurPeriodeStage.php';
+ ?>
 <!DOCTYPE html>
 <html lang="fr">
   <head>
@@ -18,10 +21,31 @@
     <![endif]-->
   </head>
   <body>
-    <div >
+    <div class = "container" >
+    <div class = "row">
+    <div class="col-md-10 col-md-offset-5">
     <h1>bienvenue</h1>
+    <br>
+    </div>
+    <div class="col-md-10 col-md-offset-3">
     <p> pour vous rensigner votre stage veillez utiliser le formulaire ci-dessous</p>
+  </div>
+  </div>
+  <div class = "row">
+    <div class="col-md-8">
+    <h3> periode </h3>
+    <form  method="Post" action="ihmEntreprise.php">
+ <div class="form-group">
+   <label for="dateDebut">demarre le :</label>
+   <input type="date" class="form-control" id="dateDebut">
+ </div>
+ <div class="form-group">
+   <label for="dateFin">finit le :</label>
+   <input type="date" class="form-control" id="dateFin">
+ </div>
+</div>
 
+</div>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
