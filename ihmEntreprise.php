@@ -1,6 +1,11 @@
 <?php
 require 'CControleurPeriodeStage.php';
-$periode = new CControleurPeriodeStage->nouvellePeriode($idStagiaire,$POST['dateDebut'],$dateFin);
+$dateDebut  = $_POST['dateDebut'];
+$dateFin = $_POST['dateFin'];
+$poste = $_POST['poste'];
+$activite = $_POST['activite'];
+$periode = new CControleurPeriodeStage;
+$newPeriode = $periode->nouvellePeriode(3,$dateDebut,$dateFin,$poste,$activite);
  ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -9,7 +14,7 @@ $periode = new CControleurPeriodeStage->nouvellePeriode($idStagiaire,$POST['date
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <title>connection</title>
+    <title>renseigner une entreprise</title>
 
     <!-- Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -26,47 +31,68 @@ $periode = new CControleurPeriodeStage->nouvellePeriode($idStagiaire,$POST['date
     <div class = "row">
 
     <h1>bienvenue</h1>
+    <table id="tableau" class="table table-striped table-bordered" width="100%" cellspacing="0">
+       <thead>
+           <tr>
+
+                   <th></th>
+
+           </tr>
+       </thead>
+
+       <tbody>
+
+
+               <tr>
+
+                      <td><a href=""></a></td>
+
+               </tr>
+
+
+       </tbody>
+   </table>
     <p> pour vous enregistrer une entreprise veillez utiliser le formulaire ci-dessous</p>
   </div>
     <div class = "row">
       <div class="col-md-8">
     <h3> entreprise </h3>
-    <form>
+    <form method="Post" action="ihmTuteur.php">
     <div class="form-group">
     <label for="nom">nom de l'entreprise</label>
-    <input type="text" class="form-control" id="nom">
+    <input type="text" class="form-control" id="nom" name="nom">
     </div>
     <div class="form-group">
     <label for="adnum">numero de rue </label>
-    <input type="text" class="form-control" id="adnum">
+    <input type="text" class="form-control" id="adnum" name="adnum" >
     </div>
     <div class="form-group">
     <label for="adrue"> rue </label>
-    <input type="text" class="form-control" id="adrue">
+    <input type="text" class="form-control" id="adrue" name="adrue" >
     </div>
     <div class="form-group">
     <label for="adville"> ville </label>
-    <input type="text" class="form-control" id="adville">
+    <input type="text" class="form-control" id="adville" name="adville" >
     </div>
     <div class="form-group">
     <label for="adcp"> code postal </label>
-    <input type="text" class="form-control" id="adcp">
+    <input type="text" class="form-control" id="adcp" name="adcp" >
     </div>
     <div class="form-group">
     <label for="tel"> telephone </label>
-    <input type="text" class="form-control" id="tel">
+    <input type="text" class="form-control" id="tel" name="tel" >
     </div>
     <div class="form-group">
     <label for="mail"> email </label>
-    <input type="email" class="form-control" id="mail">
+    <input type="email" class="form-control" id="mail" name="mail" >
     </div>
     <div class="form-group">
     <label for="siret"> siret </label>
-    <input type="text" class="form-control" id="siret">
+    <input type="text" class="form-control" id="siret" name="siret" >
     </div>
     <div class="form-group">
     <label for="siret"> ape </label>
-    <input type="text" class="form-control" id="ape">
+    <input type="text" class="form-control" id="ape" name="ape" >
     </div>
     <button type="submit" class="btn btn-default">envoyer</button>
     </form>
@@ -80,5 +106,13 @@ $periode = new CControleurPeriodeStage->nouvellePeriode($idStagiaire,$POST['date
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="js/bootstrap.min.js"></script>
+    <script src="js/dataTables.bootstrap.min.js"></script>
+    <script src="js/jquery.dataTables.min.js"></script>
+    <script>
+    /* Tableau */
+    $(document).ready(function () {
+    $('#tableau').DataTable({"language": {"url":"//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/French.json"}});
+    });
+    </script>
   </body>
 </html>

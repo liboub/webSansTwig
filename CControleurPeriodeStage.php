@@ -9,16 +9,18 @@ class CControleurPeriodeStage {
    function __construct() {
    }
 
-    public function nouvellePeriode($idStagiaire,$dateDebut,$dateFin){
+    public function nouvellePeriode($idStagiaire,$dateDebut,$dateFin,$poste,$activite){
         require_once 'CBdd.php';
             $cBdd= new CBdd();
             $bdd=$cBdd->getConnection();
 
-            $req = $bdd->prepare('INSERT INTO periode(dateDebut, dateFin, idStagiaire) VALUES(:dateDebut, :dateFin, :idStagiaire)');
+            $req = $bdd->prepare('INSERT INTO periode(dateDebut, dateFin, idStagiaire, poste , activite) VALUES(:dateDebut, :dateFin, :idStagiaire,:poste,:activite)');
                 $req->execute(array(
                 'dateDebut' => $dateDebut,
                 'dateFin' => $dateFin,
-                'idStagiaire' => $idStagiaire
+                'idStagiaire' => $idStagiaire,
+                'poste' => $poste,
+                'activite' => $activite
                 ));
 
                return $bdd->lastInsertId();
@@ -51,15 +53,15 @@ class CControleurPeriodeStage {
        require_once 'CPeriodeStage.php';
        return new CPeriodeStage($donnees);
     }
-    public function listePeriode(){
+    public function listePeriodeStagiaire($idStagiaire){
        require_once 'CBdd.php';
             $cBdd= new CBdd();
             $bdd=$cBdd->getConnection();
 
 
-       $q = $bdd->query('SELECT periode.id,periode.dateDebut,periode.dateFin,stagiaire.nom,stagiaire.prenom,entreprise.nomEnt,tuteur.nomTuteur
+       $q = $bdd->query('SELECT periode.id,periode.dateDebut,periode.dateFin,,stagiaire.prenom,entreprise.nomEnt,entreprise,tuteur.nomTuteur
          FROM periode , entreprise , tuteur , stagiaire
-         WHERE Periode.idEntreprise = entreprise.id and Periode.idStagiaire = stagiaire.id and Periode.idTuteur = tuteur.id ' );
+         WHERE Periode.idEntreprise = entreprise.id and Periode.idStagiaire = stagiaire.id and Periode.idTuteur = tuteur.id and Periode.idStagiaire =  '.$idStagiaire.' ' );
         $donnees = $q->fetchALL(PDO::FETCH_OBJ);
         return $donnees  ;
 

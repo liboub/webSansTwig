@@ -35,14 +35,26 @@ require 'CControleurPeriodeStage.php';
     <div class="col-md-8">
     <h3> periode </h3>
     <form  method="Post" action="ihmEntreprise.php">
+      <p> les dates sont a ajouter au format 2015-12-13 </p>
  <div class="form-group">
-   <label for="dateDebut">demarre le :</label>
-   <input type="date" class="form-control" id="dateDebut">
+   <label for="dateDebut" class="col-md-2 col-form-label">demarre le :</label>
+   <input type="date" class="form-control"  name="dateDebut" id="dateDebut">
  </div>
  <div class="form-group">
-   <label for="dateFin">finit le :</label>
-   <input type="date" class="form-control" id="dateFin">
+   <label for="dateFin" class="col-md-2 col-form-label">finit le :</label>
+   <input type="date" class="form-control" name="dateFin" id="dateFin">
  </div>
+ <div class="form-group">
+   <label for="dateFin" class="col-md-2 col-form-label">poste :</label>
+   <input type="text" class="form-control" name="poste" id="poste">
+ </div>
+ <div class="form-group">
+  <label for="activite" class="col-md-2 col-form-label">activitées:</label>
+  <textarea class="form-control" rows="5" id="activite" name="activite"></textarea>
+</div>
+
+   <button type="submit" class="btn btn-default">envoyer</button>
+     </form>
 </div>
 
 </div>
