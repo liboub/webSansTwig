@@ -1,30 +1,78 @@
 <!DOCTYPE html>
 <html lang="fr">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <title>connection</title>
 
-    <!-- Bootstrap -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
+<head>
 
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
-  </head>
-  <body>
-    <div >
-    <h1>bienvenue</h1>
-    <p> pour vous connectez veillez utiliser le formulaire ci-dessous</p>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="">
 
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="js/bootstrap.min.js"></script>
-  </body>
+  <title>GDS</title>
+
+  <!-- Bootstrap Core CSS -->
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+
+
+</head>
+
+<body>
+
+<?php
+
+if (isset($_GET['message'])){
+
+  $message =$_GET['message'];
+} else {
+
+  $message = "";
+}
+
+
+
+
+
+
+?>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-4 col-md-offset-4">
+      <div class="login-panel panel panel-default">
+        <div class="panel-heading">
+          <h3 align="center" class="panel-title">Identification</h3>
+        </div>
+        <div class="panel-body">
+          <form role="form" method="Post" action="connection.php">
+            <fieldset>
+              <div class="form-group">
+                <input class="form-control" placeholder="Identifiant" name="login" type="login" autofocus>
+              </div>
+              <div class="form-group">
+                <input class="form-control" placeholder="Mot de passe" name="password" type="password" value="">
+              </div>
+
+              <button type="submit" value="valider" class="btn btn-lg btn-success btn-block">Se connecter</button>
+              </br>
+              </br>
+              </br>
+              </br>
+              <?php
+              echo $message;
+              ?>
+
+
+
+            </fieldset>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+</body>
+
 </html>
