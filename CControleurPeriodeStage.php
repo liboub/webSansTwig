@@ -32,6 +32,7 @@ class CControleurPeriodeStage {
             $bdd=$cBdd->getConnection();
         $q = $bdd->prepare('UPDATE periode SET idEntreprise="'.$idEntreprise.'" WHERE id='.$idPeriode.' ');
         $q->execute();
+        header('location: ihmTuteur.php');
     }
 
     public function assignerTuteur($idPeriode, $idTuteur) {

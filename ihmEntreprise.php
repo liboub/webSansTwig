@@ -1,11 +1,15 @@
 <?php
 require 'CControleurPeriodeStage.php';
+require_once 'CControleurEntreprise.php';
+$cControleurEntreprise=new CControleurEntreprise;
+$entreprise=$cControleurEntreprise->listeEntreprise();
 $dateDebut  = $_POST['dateDebut'];
 $dateFin = $_POST['dateFin'];
 $poste = $_POST['poste'];
 $activite = $_POST['activite'];
 $periode = new CControleurPeriodeStage;
 $newPeriode = $periode->nouvellePeriode(3,$dateDebut,$dateFin,$poste,$activite);
+  setcookie("idPeriode",$newPeriode,time()+3600);
  ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -35,24 +39,34 @@ $newPeriode = $periode->nouvellePeriode(3,$dateDebut,$dateFin,$poste,$activite);
        <thead>
            <tr>
 
-                   <th></th>
+                   <th>nom</th>
+                   <th>rue </th>
+                   <th>ville</th>
+                   <th>code postal</th>
+                   <th>telephone</th>
+                   <th>email</th>
 
            </tr>
        </thead>
 
        <tbody>
-
-
+<?php
+         foreach ($entreprise as  $value) {
+           ?>
                <tr>
-
-                      <td><a href=""></a></td>
-
+                      <td><a href="assignerEntreprise.php?id=<?php echo $value->getId();?>"><?php echo $value->getNom() ;?></a></td>
+                      <td><a href=""><?php echo $value->getAdnum().'   '.$value->getAdrue()?></a></td>
+                      <td><a href=""><?php echo $value->getAdville() ;?></a></td>
+                      <td><a href=""><?php echo $value->getAdcp();?></a></td>
+                      <td><a href=""><?php echo $value->getTel();?></a></td>
+                      <td><a href=""><?php echo $value->getMail();?></a></td>
                </tr>
-
-
+<?php
+}
+?>
        </tbody>
    </table>
-    <p> pour vous enregistrer une entreprise veillez utiliser le formulaire ci-dessous</p>
+    <p> pour vous enregistrer une nouvelle entreprise veillez utiliser le formulaire ci-dessous</p>
   </div>
     <div class = "row">
       <div class="col-md-8">

@@ -1,20 +1,22 @@
 <?php
 require 'CControleurEntreprise.php';
 $entreprise = new CControleurEntreprise;
-    $donnees = array(
-        "nom"=>$_POST['nom'],
-        "adnum"=>$_POST['adnum'],
-        "adrue"=>$_POST['adrue'],
-        "adville"=>$_POST['adville'],
-        "adcp"=>$_POST['adcp'],
-        "tel"=>$_POST['tel'],
-        "mail"=>$_POST['mail'],
-        "siret"=>$_POST['siret'],
-        "ape"=>$_POST['ape']);
+if (isset($_POST['nom'] , $_POST['adnum'] , $_POST['adrue'] , $_POST['adville'] , $_POST['adcp'] ,
+$_POST['tel'] , $_POST['mail'] , $_POST['siret'] , $_POST['ape'])) {
+  $donnees = array(
+      "nom"=>$_POST['nom'],
+      "adnum"=>$_POST['adnum'],
+      "adrue"=>$_POST['adrue'],
+      "adville"=>$_POST['adville'],
+      "adcp"=>$_POST['adcp'],
+      "tel"=>$_POST['tel'],
+      "mail"=>$_POST['mail'],
+      "siret"=>$_POST['siret'],
+      "ape"=>$_POST['ape']);
+      $idEntreprise = $entreprise->ajouterEntreprise($donnees);
+      setcookie("idEntreprise",$idEntreprise,time()+3600);
+}
 
-
-$idEntreprise = $entreprise->ajouterEntreprise($donnees);
-setcookie("idEntreprise",$idEntreprise,time()+3600);
  ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -37,7 +39,7 @@ setcookie("idEntreprise",$idEntreprise,time()+3600);
   </head>
   <body>
     <div >
-  
+
 
     <div class = "container" >
       <div class = "row">

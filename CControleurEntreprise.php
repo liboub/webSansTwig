@@ -76,6 +76,7 @@ class CControleurEntreprise {
 
    public function listeEntreprise(){
        require_once 'CBdd.php';
+       require_once 'CEntreprise.php';
         $cBdd= new CBdd();
         $bdd=$cBdd->getConnection();
 
