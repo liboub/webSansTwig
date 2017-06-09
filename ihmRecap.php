@@ -1,13 +1,16 @@
 <?php
 require 'CControleurTuteur.php';
 $tuteur = new CControleurTuteur;
-$donnees = array(
-    "nom"=>$_POST['nom'],
-    "prenom"=>$_POST['prenom'],
-    "mail"=>$_POST['mail'],
-   "tel"=>$_POST['tel'],
-   "idEntreprise"=>$_COOKIE['idEntreprise']);
-$idTuteur=$tuteur->ajouterTuteur($donnees);
+if (isset($_POST['nom'],$_POST['prenom'],$_POST['mail'],$_POST['tel'],$_COOKIE['idEntreprise'])) {
+  $donnees = array(
+      "nom"=>$_POST['nom'],
+      "prenom"=>$_POST['prenom'],
+      "mail"=>$_POST['mail'],
+     "tel"=>$_POST['tel'],
+     "idEntreprise"=>$_COOKIE['idEntreprise']);
+  $idTuteur=$tuteur->ajouterTuteur($donnees);
+}
+
 
         require_once 'CControleurPeriodeStage.php';
         $cControleurPeriodeStage = new CControleurPeriodeStage();

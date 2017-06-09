@@ -55,11 +55,11 @@ $newPeriode = $periode->nouvellePeriode(3,$dateDebut,$dateFin,$poste,$activite);
            ?>
                <tr>
                       <td><a href="assignerEntreprise.php?id=<?php echo $value->getId();?>"><?php echo $value->getNom() ;?></a></td>
-                      <td><a href=""><?php echo $value->getAdnum().'   '.$value->getAdrue()?></a></td>
-                      <td><a href=""><?php echo $value->getAdville() ;?></a></td>
-                      <td><a href=""><?php echo $value->getAdcp();?></a></td>
-                      <td><a href=""><?php echo $value->getTel();?></a></td>
-                      <td><a href=""><?php echo $value->getMail();?></a></td>
+                      <td><a href="assignerEntreprise.php?id=<?php echo $value->getId();?>"><?php echo $value->getAdnum().'   '.$value->getAdrue()?></a></td>
+                      <td><a href="assignerEntreprise.php?id=<?php echo $value->getId();?>"><?php echo $value->getAdville() ;?></a></td>
+                      <td><a href="assignerEntreprise.php?id=<?php echo $value->getId();?>"><?php echo $value->getAdcp();?></a></td>
+                      <td><a href="assignerEntreprise.php?id=<?php echo $value->getId();?>"><?php echo $value->getTel();?></a></td>
+                      <td><a href="assignerEntreprise.php?id=<?php echo $value->getId();?>"><?php echo $value->getMail();?></a></td>
                </tr>
 <?php
 }

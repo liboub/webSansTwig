@@ -66,6 +66,7 @@ class CControleurTuteur {
 
     public function unTuteur($idTuteur){
        require_once 'CBdd.php';
+
         $cBdd= new CBdd();
         $bdd=$cBdd->getConnection();
 
@@ -78,25 +79,20 @@ class CControleurTuteur {
 
 
 
-   public function listeTuteur($idEntreprise,$selection){
+   public function listeTuteur($idEntreprise){
        require_once 'CBdd.php';
+       require_once 'CTuteur.php';
         $cBdd= new CBdd();
         $bdd=$cBdd->getConnection();
 
-       $donneesTab=array();
-       $y=0;
-       $q = $bdd->query('SELECT id, nom, prenom  FROM tuteur WHERE idEntreprise = '.$idEntreprise.'');
-       while ($donnees = $q->fetch(PDO::FETCH_ASSOC)){
-           $i=0;
-           $ligne=array();
-           foreach ($selection as $Colonne){
-             $ligne[$i]= $donnees[$selection[$i]];
-             $i++;
-           }
-           $donneesTab[$y] = $ligne;
-           $y++;
-       }
-       return $donneesTab;
+  $i=0;
+       $q = $bdd->query('SELECT * FROM tuteur WHERE idEntreprise = '.$idEntreprise.'');
+        while ($donnees = $q->fetch(PDO::FETCH_ASSOC)){
+
+    $this->listeTuteur[$i]= new CTuteur($donnees);
+              $i++;
+        }
+return $this->listeTuteur;
    }
 
 

@@ -1,6 +1,8 @@
 <?php
 require 'CControleurEntreprise.php';
+require 'CControleurTuteur.php';
 $entreprise = new CControleurEntreprise;
+$tuteur = new CControleurTuteur;
 if (isset($_POST['nom'] , $_POST['adnum'] , $_POST['adrue'] , $_POST['adville'] , $_POST['adcp'] ,
 $_POST['tel'] , $_POST['mail'] , $_POST['siret'] , $_POST['ape'])) {
   $donnees = array(
@@ -16,6 +18,7 @@ $_POST['tel'] , $_POST['mail'] , $_POST['siret'] , $_POST['ape'])) {
       $idEntreprise = $entreprise->ajouterEntreprise($donnees);
       setcookie("idEntreprise",$idEntreprise,time()+3600);
 }
+$listeTuteur = $tuteur->listeTuteur(4);
 
  ?>
 <!DOCTYPE html>
@@ -25,7 +28,7 @@ $_POST['tel'] , $_POST['mail'] , $_POST['siret'] , $_POST['ape'])) {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <title>connection</title>
+    <title>choisir un tuteur</title>
 
     <!-- Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -38,11 +41,38 @@ $_POST['tel'] , $_POST['mail'] , $_POST['siret'] , $_POST['ape'])) {
     <![endif]-->
   </head>
   <body>
-    <div >
+
 
 
     <div class = "container" >
       <div class = "row">
+
+        <table id="tableau" class="table table-striped table-bordered" width="100%" cellspacing="0">
+           <thead>
+               <tr>
+
+                       <th>nom</th>
+                       <th>prenom </th>
+
+
+               </tr>
+           </thead>
+
+           <tbody>
+    <?php
+             foreach ($listeTuteur as  $value) {
+               ?>
+                   <tr>
+                          <td><a href="assignerTuteur.php?id=<?php echo $value->getId();?>"><?php echo $value->getNom() ;?></a></td>
+                          <td><a href="assignerTuteur.php?id=<?php echo $value->getId();?>"><?php echo $value->getPrenom();?></a></td>
+
+                   </tr>
+    <?php
+    }
+    ?>
+           </tbody>
+       </table>
+
         <div class="col-md-8">
         <h3> tuteur </h3>
         <form  method="Post" action="ihmRecap.php">
