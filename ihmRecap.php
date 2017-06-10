@@ -1,4 +1,9 @@
 <?php
+session_start();
+if (empty($_SESSION['idStagiaire'])) {
+    header('Location: index.php');
+    exit;
+}
 require 'CControleurTuteur.php';
 $tuteur = new CControleurTuteur;
 if (isset($_POST['nom'],$_POST['prenom'],$_POST['mail'],$_POST['tel'],$_COOKIE['idEntreprise'])) {
@@ -10,8 +15,8 @@ if (isset($_POST['nom'],$_POST['prenom'],$_POST['mail'],$_POST['tel'],$_COOKIE['
      "idEntreprise"=>$_COOKIE['idEntreprise']);
   $idTuteur=$tuteur->ajouterTuteur($donnees);
 }
-
-
+$idPeriode = $_COOKIE['idPeriode'].
+$idEntreprise = $_COOKIE['idEntreprise'];
         require_once 'CControleurPeriodeStage.php';
         $cControleurPeriodeStage = new CControleurPeriodeStage();
 
@@ -27,7 +32,7 @@ if (isset($_POST['nom'],$_POST['prenom'],$_POST['mail'],$_POST['tel'],$_COOKIE['
         require_once 'CControleurTuteur.php';
         $cControleurTuteur=new CControleurTuteur();
 
-$idPeriode=1;//période recupérée en GET
+
 
 $periode=$cControleurPeriodeStage->unePeriode($idPeriode);
 

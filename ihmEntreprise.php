@@ -1,4 +1,9 @@
 <?php
+if (empty($_SESSION['idStagiaire'])) {
+    header('Location: index.php');
+    exit;
+}
+session_start();
 require 'CControleurPeriodeStage.php';
 require_once 'CControleurEntreprise.php';
 $cControleurEntreprise=new CControleurEntreprise;
@@ -7,8 +12,9 @@ $dateDebut  = $_POST['dateDebut'];
 $dateFin = $_POST['dateFin'];
 $poste = $_POST['poste'];
 $activite = $_POST['activite'];
+$idStagiaire = $_SESSION['idStagiaire'];
 $periode = new CControleurPeriodeStage;
-$newPeriode = $periode->nouvellePeriode(3,$dateDebut,$dateFin,$poste,$activite);
+$newPeriode = $periode->nouvellePeriode($idStagiaire,$dateDebut,$dateFin,$poste,$activite);
   setcookie("idPeriode",$newPeriode,time()+3600);
  ?>
 <!DOCTYPE html>

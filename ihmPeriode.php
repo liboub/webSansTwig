@@ -1,6 +1,27 @@
 <?php
-require 'CControleurPeriodeStage.php';
- ?>
+session_start();
+
+if (empty($_SESSION['idStagiaire'])) {
+    header('Location: index.php');
+    exit;
+}
+$id = $_SESSION['idStagiaire'];
+require 'CControleurStagiaire.php';
+$ccontroleurStagiaire = new CControleurStagiaire;
+if (isset($_POST['nom'],$_POST['prenom'],$_POST['mail'],$_POST['tel'])) {
+  $nom = $_POST['nom'];
+  $prenom = $_POST['prenom'];
+  $mail = $_POST['mail'];
+  $tel = $_POST['tel'];
+  $données = array("nom" => $nom,
+      "prenom" => $prenom,
+      "mail" => $mail,
+      "tel" => $tel);
+$stagiaire = $ccontroleurStagiaire->modifierStagiaire($données, $id);
+}
+
+
+?>
 <!DOCTYPE html>
 <html lang="fr">
   <head>

@@ -1,8 +1,14 @@
 <?php
+session_start();
+if (empty($_SESSION['idStagiaire'])) {
+    header('Location: index.php');
+    exit;
+}
 require 'CControleurEntreprise.php';
 require 'CControleurTuteur.php';
 $entreprise = new CControleurEntreprise;
 $tuteur = new CControleurTuteur;
+// si une entreprise a ete rajouter precedament , on effectue son enregistrement
 if (isset($_POST['nom'] , $_POST['adnum'] , $_POST['adrue'] , $_POST['adville'] , $_POST['adcp'] ,
 $_POST['tel'] , $_POST['mail'] , $_POST['siret'] , $_POST['ape'])) {
   $donnees = array(
@@ -18,7 +24,9 @@ $_POST['tel'] , $_POST['mail'] , $_POST['siret'] , $_POST['ape'])) {
       $idEntreprise = $entreprise->ajouterEntreprise($donnees);
       setcookie("idEntreprise",$idEntreprise,time()+3600);
 }
-$listeTuteur = $tuteur->listeTuteur(4);
+$idEntreprise = $_COOKIE['idEntreprise'];
+// on recupere la lise des tuteur par entreprise
+$listeTuteur = $tuteur->listeTuteur($idEntreprise);
 
  ?>
 <!DOCTYPE html>
