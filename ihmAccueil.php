@@ -94,11 +94,11 @@ $periode=$cControleurPeriodeStage->listePeriodeStagiaire($id);
 
                ?>
                    <tr>
-                          <td><?php echo $value['0'] ;?></td>
-                          <td><?php echo $value['1'];?></td>
-                          <td><?php echo $value['5'] ;?></td>
-                          <td><?php echo $value['6'];?></td>
-                          <td><a href="assignerEntreprise.php?id=<?php echo $value['0'];?>" class="col-lg-offset-5 glyphicon glyphicon-cog"></a></td>
+                          <td><?php echo $value['1'] ;?></td>
+                          <td><?php echo $value['2'];?></td>
+                          <td><?php echo $value['6'] ;?></td>
+                          <td><?php echo $value['7'];?></td>
+                          <td><a href="ihmModifPeriode.php?idPeriode=<?php echo $value['0'];?>" class="col-lg-offset-5 glyphicon glyphicon-cog"></a></td>
 
                    </tr>
     <?php

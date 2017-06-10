@@ -13,7 +13,7 @@ class CPeriodeStage {
             $idStagiaire,
             $idEntreprise,
             $idTuteur;
-    
+
         function __construct($donnees) {
         $this->id = $donnees['id'];
         $this->dateDebut = $donnees['dateDebut'];
@@ -50,7 +50,7 @@ class CPeriodeStage {
     }
 
     function getActivites() {
-        return $this->activites;
+        return $this->activite;
     }
 
     function getNoteFormateur() {
@@ -78,8 +78,7 @@ class CPeriodeStage {
     }
 
 
-    
-    
-    
-}
 
+
+
+}

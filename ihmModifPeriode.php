@@ -5,23 +5,13 @@ if (empty($_SESSION['idStagiaire'])) {
     header('Location: index.php');
     exit;
 }
-$id = $_SESSION['idStagiaire'];
-require 'CControleurStagiaire.php';
-$ccontroleurStagiaire = new CControleurStagiaire;
-if (isset($_POST['nom'],$_POST['prenom'],$_POST['mail'],$_POST['tel'])) {
-  $nom = $_POST['nom'];
-  $prenom = $_POST['prenom'];
-  $mail = $_POST['mail'];
-  $tel = $_POST['tel'];
-  $données = array("nom" => $nom,
-      "prenom" => $prenom,
-      "mail" => $mail,
-      "tel" => $tel);
-$stagiaire = $ccontroleurStagiaire->modifierStagiaire($données, $id);
-}
-
-
-
+$idPeriode = $_GET['idPeriode'];
+// on cree le cookie id periode
+setcookie("idPeriode",$idPeriode,time()+3600);
+require 'CControleurPeriodeStage.php';
+$CControleurPeriodeStage = new CControleurPeriodeStage;
+$periode = $CControleurPeriodeStage->unePeriode($idPeriode);
+$idStagiaire = $_SESSION['idStagiaire'];
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -56,23 +46,23 @@ $stagiaire = $ccontroleurStagiaire->modifierStagiaire($données, $id);
   <div class = "row">
     <div class="col-md-8">
     <h3> periode </h3>
-    <form  method="Post" action="ihmEntreprise.php">
+    <form  method="Post" action="ihmModifEntreprise.php?idEntreprise=<?php echo $periode->getIdEntreprise(); ?>">
       <p> les dates sont a ajouter au format 2015-12-13 </p>
  <div class="form-group">
    <label for="dateDebut" class="col-md-2 col-form-label">demarre le :</label>
-   <input type="date" class="form-control"  name="dateDebut" id="dateDebut">
+   <input type="date" class="form-control"  name="dateDebut" id="dateDebut" value="<?php echo $periode->getDateDebut(); ?>">
  </div>
  <div class="form-group">
    <label for="dateFin" class="col-md-2 col-form-label">finit le :</label>
-   <input type="date" class="form-control" name="dateFin" id="dateFin">
+   <input type="date" class="form-control" name="dateFin" id="dateFin" value="<?php echo $periode->getDateFin(); ?>">
  </div>
  <div class="form-group">
    <label for="dateFin" class="col-md-2 col-form-label">poste :</label>
-   <input type="text" class="form-control" name="poste" id="poste">
+   <input type="text" class="form-control" name="poste" id="poste" value="<?php echo $periode->getPoste(); ?>">
  </div>
  <div class="form-group">
   <label for="activite" class="col-md-2 col-form-label">activitées:</label>
-  <textarea class="form-control" rows="5" id="activite" name="activite"></textarea>
+  <textarea class="form-control" rows="5" id="activite" name="activite"  ><?php echo $periode->getActivites(); ?></textarea>
 </div>
 
    <button type="submit" class="btn btn-default">envoyer</button>

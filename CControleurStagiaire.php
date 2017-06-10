@@ -60,7 +60,21 @@ class CControleurStagiaire {
           return $id = $donnees['id'];
 
       }
+    }
+
+      public function modifierStagiaire($donnees,$id){
+              require_once 'CBdd.php';
+              $cBdd= new CBdd();
+              $bdd=$cBdd->getConnection();
+
+              $req = $bdd->prepare('UPDATE stagiaire SET nom =:nom, prenom = :prenom , mail=:mail, tel=:tel WHERE id = '.$id.'');
+              $req->execute(array(
+                  'nom' => $donnees['nom'],
+                  'prenom' => $donnees['prenom'],
+                  'mail' => $donnees['mail'],
+                  'tel' => $donnees['tel']
+              ));
 
 
-}
+    }
 }

@@ -1,23 +1,27 @@
 <?php
-
  session_start();
 if (empty($_SESSION['idStagiaire'])) {
     header('Location: index.php');
     exit;
 }
-
+$idEntreprise = $_GET['idEntreprise'];
+$idPeriode = 31 ;
+//$idPeriode =  $_COOKIE['idPeriode'];
 require 'CControleurPeriodeStage.php';
 require_once 'CControleurEntreprise.php';
 $cControleurEntreprise=new CControleurEntreprise;
-$entreprise=$cControleurEntreprise->listeEntreprise();
-$dateDebut  = $_POST['dateDebut'];
-$dateFin = $_POST['dateFin'];
-$poste = $_POST['poste'];
-$activite = $_POST['activite'];
+$entreprise=$cControleurEntreprise->uneEntreprise($idEntreprise);
+// on cree le tableau de donnes de la periode
+$données = array("dateDebut" => $_POST['dateDebut'],
+    "dateFin" => $_POST['dateFin'],
+    "poste" => $_POST['poste'],
+    "activite" => $_POST['activite']);
+
 $idStagiaire = $_SESSION['idStagiaire'];
 $periode = new CControleurPeriodeStage;
-$newPeriode = $periode->nouvellePeriode($idStagiaire,$dateDebut,$dateFin,$poste,$activite);
-  setcookie("idPeriode",$newPeriode,time()+3600);
+// on modifie la periode
+$newPeriode = $periode->modifierPeriode($données,$idPeriode);
+
  ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -43,78 +47,48 @@ $newPeriode = $periode->nouvellePeriode($idStagiaire,$dateDebut,$dateFin,$poste,
     <div class = "row">
 
     <h1>bienvenue</h1>
-    <table id="tableau" class="table table-striped table-bordered" width="100%" cellspacing="0">
-       <thead>
-           <tr>
 
-                   <th>nom</th>
-                   <th>rue </th>
-                   <th>ville</th>
-                   <th>code postal</th>
-                   <th>telephone</th>
-                   <th>email</th>
 
-           </tr>
-       </thead>
-
-       <tbody>
-<?php
-         foreach ($entreprise as  $value) {
-           ?>
-               <tr>
-                      <td><a href="assignerEntreprise.php?id=<?php echo $value->getId();?>"><?php echo $value->getNom() ;?></a></td>
-                      <td><a href="assignerEntreprise.php?id=<?php echo $value->getId();?>"><?php echo $value->getAdnum().'   '.$value->getAdrue()?></a></td>
-                      <td><a href="assignerEntreprise.php?id=<?php echo $value->getId();?>"><?php echo $value->getAdville() ;?></a></td>
-                      <td><a href="assignerEntreprise.php?id=<?php echo $value->getId();?>"><?php echo $value->getAdcp();?></a></td>
-                      <td><a href="assignerEntreprise.php?id=<?php echo $value->getId();?>"><?php echo $value->getTel();?></a></td>
-                      <td><a href="assignerEntreprise.php?id=<?php echo $value->getId();?>"><?php echo $value->getMail();?></a></td>
-               </tr>
-<?php
-}
-?>
-       </tbody>
-   </table>
-    <p> pour vous enregistrer une nouvelle entreprise veillez utiliser le formulaire ci-dessous</p>
   </div>
     <div class = "row">
       <div class="col-md-8">
     <h3> entreprise </h3>
-    <form method="Post" action="ihmTuteur.php">
+    <form method="Post" action="ihmModifTuteur.php?idEntreprise=<?php echo $idStagiaire ?>">
     <div class="form-group">
     <label for="nom">nom de l'entreprise</label>
-    <input type="text" class="form-control" id="nom" name="nom">
+    <input type="text" class="form-control" id="nom" name="nom" value="<?php echo $entreprise->getNom(); ?>">
     </div>
     <div class="form-group">
     <label for="adnum">numero de rue </label>
-    <input type="text" class="form-control" id="adnum" name="adnum" >
+    <input type="text" class="form-control" id="adnum" name="adnum" value="<?php echo $entreprise->getAdnum(); ?>">
     </div>
     <div class="form-group">
     <label for="adrue"> rue </label>
-    <input type="text" class="form-control" id="adrue" name="adrue" >
+    <input type="text" class="form-control" id="adrue" name="adrue" value="<?php echo $entreprise->getAdrue(); ?>">
     </div>
     <div class="form-group">
     <label for="adville"> ville </label>
-    <input type="text" class="form-control" id="adville" name="adville" >
+    <input type="text" class="form-control" id="adville" name="adville" value="<?php echo $entreprise->getAdville(); ?>">
     </div>
     <div class="form-group">
     <label for="adcp"> code postal </label>
-    <input type="text" class="form-control" id="adcp" name="adcp" >
+    <input type="text" class="form-control" id="adcp" name="adcp" value="<?php echo $entreprise->getAdcp(); ?>">
     </div>
     <div class="form-group">
     <label for="tel"> telephone </label>
-    <input type="text" class="form-control" id="tel" name="tel" >
+    <input type="text" class="form-control" id="tel" name="tel" value="<?php echo $entreprise->getTel(); ?>">
     </div>
     <div class="form-group">
     <label for="mail"> email </label>
-    <input type="email" class="form-control" id="mail" name="mail" >
+    <input type="email" class="form-control" id="mail" name="mail" value="<?php echo $entreprise->getMail(); ?>">
     </div>
     <div class="form-group">
     <label for="siret"> siret </label>
-    <input type="text" class="form-control" id="siret" name="siret" >
+    <input type="text" class="form-control" id="siret" name="siret" value="<?php echo $entreprise->getSiret(); ?>">
     </div>
     <div class="form-group">
     <label for="siret"> ape </label>
-    <input type="text" class="form-control" id="ape" name="ape" >
+    <input type="text" class="form-control" id="ape" name="ape" value="<?php echo $entreprise->getApe(); ?>">
     </div>
     <button type="submit" class="btn btn-default">envoyer</button>
     </form>

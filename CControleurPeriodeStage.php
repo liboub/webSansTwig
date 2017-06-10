@@ -25,6 +25,18 @@ class CControleurPeriodeStage {
 
                return $bdd->lastInsertId();
     }
+    public function modifierPeriode($donnees,$idPeriode)
+    {
+      require_once 'CBdd.php';
+          $cBdd= new CBdd();
+          $bdd=$cBdd->getConnection();
+          $req = $bdd->prepare('UPDATE periode SET dateDebut =:dateDebut, dateFin = :dateFin , poste=:poste, activite=:activite WHERE id = '.$idPeriode.'');
+          $req->execute(array(
+              'dateDebut' => $donnees['dateDebut'],
+              'dateFin' => $donnees['dateFin'],
+              'poste' => $donnees['poste'],
+              'activite' => $donnees['activite'] ));
+    }
 
     public function assignerEntreprise($idPeriode, $idEntreprise) {
         require_once 'CBdd.php';
@@ -62,16 +74,16 @@ class CControleurPeriodeStage {
             $bdd=$cBdd->getConnection();
 
             // on recupere les periodes des stage du stagiaire
-       $q = $bdd->query('SELECT dateDebut , dateFin , idTuteur , idEntreprise , idStagiaire FROM periode WHERE Periode.idStagiaire = '.$idStagiaire.' ' );
+       $q = $bdd->query('SELECT id ,dateDebut , dateFin , idTuteur , idEntreprise , idStagiaire FROM periode WHERE Periode.idStagiaire = '.$idStagiaire.' ' );
         $donneesPeriode = $q->fetchALL(PDO::FETCH_NUM);
         // on recupere les entreprises du stagiaire
       foreach ($donneesPeriode as  $value) {
-        $qEntreprise = $bdd->query('SELECT nom FROM entreprise WHERE id = '.$value[3].'' );
+        $qEntreprise = $bdd->query('SELECT nom FROM entreprise WHERE id = '.$value[4].'' );
        $donneesEntreprise[] = $qEntreprise->fetch(PDO::FETCH_NUM);
       }
       // on recupere les tuteur du stagiaire
       foreach ($donneesPeriode as  $value) {
-        $qTuteur = $bdd->query('SELECT nom FROM tuteur WHERE id = '.$value[2].'' );
+        $qTuteur = $bdd->query('SELECT nom FROM tuteur WHERE id = '.$value[3].'' );
        $donneesTuteur[] = $qTuteur->fetch(PDO::FETCH_NUM);
 
       }
