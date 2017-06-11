@@ -5,24 +5,7 @@ if (empty($_SESSION['idStagiaire'])) {
     header('Location: index.php');
     exit;
 }
-// les fichiers requis
-require 'CControleurPeriodeStage.php';
-require_once 'CControleurEntreprise.php';
-// on istancie les objets
-$cControleurEntreprise=new CControleurEntreprise;
-$periode = new CControleurPeriodeStage;
-// on va chercher la liste des entreprises
-$entreprise=$cControleurEntreprise->listeEntreprise();
-// on recupere les donnees de la periode
-$dateDebut  = $_POST['dateDebut'];
-$dateFin = $_POST['dateFin'];
-$poste = $_POST['poste'];
-$activite = $_POST['activite'];
-$idStagiaire = $_SESSION['idStagiaire'];
-// on cree la periode
-$newPeriode = $periode->nouvellePeriode($idStagiaire,$dateDebut,$dateFin,$poste,$activite);
-// on creer le cookie contenant l'id periode
-  setcookie("idPeriode",$newPeriode,time()+3600);
+
  ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -48,43 +31,13 @@ $newPeriode = $periode->nouvellePeriode($idStagiaire,$dateDebut,$dateFin,$poste,
     <div class = "row">
 
     <h1>bienvenue</h1>
-    <table id="tableau" class="table table-striped table-bordered" width="100%" cellspacing="0">
-       <thead>
-           <tr>
 
-                   <th>nom</th>
-                   <th>rue </th>
-                   <th>ville</th>
-                   <th>code postal</th>
-                   <th>telephone</th>
-                   <th>email</th>
-
-           </tr>
-       </thead>
-
-       <tbody>
-<?php
-         foreach ($entreprise as  $value) {
-           ?>
-               <tr>
-                      <td><a href="assignerEntreprise.php?id=<?php echo $value->getId();?>"><?php echo $value->getNom() ;?></a></td>
-                      <td><a href="assignerEntreprise.php?id=<?php echo $value->getId();?>"><?php echo $value->getAdnum().'   '.$value->getAdrue()?></a></td>
-                      <td><a href="assignerEntreprise.php?id=<?php echo $value->getId();?>"><?php echo $value->getAdville() ;?></a></td>
-                      <td><a href="assignerEntreprise.php?id=<?php echo $value->getId();?>"><?php echo $value->getAdcp();?></a></td>
-                      <td><a href="assignerEntreprise.php?id=<?php echo $value->getId();?>"><?php echo $value->getTel();?></a></td>
-                      <td><a href="assignerEntreprise.php?id=<?php echo $value->getId();?>"><?php echo $value->getMail();?></a></td>
-               </tr>
-<?php
-}
-?>
-       </tbody>
-   </table>
-    <p> pour  enregistrer une nouvelle entreprise veillez utiliser le formulaire ci-dessous</p>
+    <p> pour enregistrer une nouvelle entreprise veillez utiliser le formulaire ci-dessous</p>
   </div>
     <div class = "row">
       <div class="col-md-8">
     <h3> entreprise </h3>
-    <form method="Post" action="ihmTuteur.php">
+    <form method="Post" action="ihmModifTuteur.php">
     <div class="form-group">
     <label for="nom">nom de l'entreprise</label>
     <input type="text" class="form-control" id="nom" name="nom">

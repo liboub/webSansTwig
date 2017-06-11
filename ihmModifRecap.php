@@ -4,39 +4,49 @@ if (empty($_SESSION['idStagiaire'])) {
     header('Location: index.php');
     exit;
 }
-// fichiers requis
+// les fichier requis
 require 'CControleurTuteur.php';
 require_once 'CControleurPeriodeStage.php';
 require_once 'CControleurEntreprise.php';
 require_once 'CControleurStagiaire.php';
-
-// on instancie les objets
-$cControleurTuteur = new CControleurTuteur;
-$cControleurPeriodeStage = new CControleurPeriodeStage();
+require_once 'CControleurTuteur.php';
+// on istancie les objets
+$tuteur = new CControleurTuteur;
+$cControleurPeriodeStage = new CControleurPeriodeStage;
 $cControleurEntreprise=new CControleurEntreprise;
-$cControleurStagiaire=new CControleurStagiaire();
+$cControleurStagiaire=new CControleurStagiaire;
+$cControleurTuteur=new CControleurTuteur;
 // on recupere l'id de la periode
- $idPeriode = 34;
-//$idPeriode = $_COOKIE['idPeriode']
-// on va chercher les infos de la periode
+$idPeriode = $_COOKIE['idPeriode'];
+// on recupere les donnees de la periode
 $periode=$cControleurPeriodeStage->unePeriode($idPeriode);
-// on va chercher les infos de l'entreprise
+// on recupere les donnees de l'entreprise
 $entreprise=$cControleurEntreprise->uneEntreprise($periode->getIdEntreprise());
-// on va chercher les infos du stagiaire
+// on recupere les donnees du stagiaire
 $stagiaire=$cControleurStagiaire->unStagiaire($periode->getIdStagiaire());
-// on va chercher les infos du tuteur
-$tuteur=$cControleurTuteur->unTuteur($periode->getIdTuteur());
-// on cree le tableau de donnees
-if (isset($_POST['nom'],$_POST['prenom'],$_POST['mail'],$_POST['tel'],$_COOKIE['idEntreprise'])) {
+
+// on rasssemble les infos neccessaire a la modification dans un tableau
+if (isset($_POST['nom'],$_POST['prenom'],$_POST['mail'],$_POST['tel'])) {
   $donnees = array(
       "nom"=>$_POST['nom'],
       "prenom"=>$_POST['prenom'],
       "mail"=>$_POST['mail'],
-     "tel"=>$_POST['tel'],
-     "idEntreprise"=>$_COOKIE['idEntreprise']);
-  $idTuteur=$cControleurTuteur->ajouterTuteur($donnees);
+     "tel"=>$_POST['tel']);
+     // si on recupere nouveau dans la variable alors on cree un nouveau tuteur
+     if (isset($_GET['nouveau'])) {
+       // on cree le nouveau tuteur et recupere l'id
+       $idAjouterTuteur = $cControleurTuteur->ajouterTuteur($donnees);
+       // on modifie l'id tuteur dans periode de stagiaire
+      $assignerTuteur  = $cControleurPeriodeStage->assignerTuteurSansRedirection($idPeriode, $idAjouterTuteur);
+     }
+     // sinon on modifie le tuteur
+     else {
+       // on modifie les donnees du tuteur
+    $modifierTuteur=$tuteur->modifierTuteur($donnees,$tuteur->getId);
+     }
+     // on recupere les donnees du tuteur
+     $tuteur=$cControleurTuteur->unTuteur($periode->getIdTuteur());
 }
-
 
  ?>
 <!DOCTYPE html>
@@ -63,7 +73,7 @@ if (isset($_POST['nom'],$_POST['prenom'],$_POST['mail'],$_POST['tel'],$_COOKIE['
     <h2>recapitulatif</h2>
 
     <section class="row">
-        <div class="col-md-12 date">Date</div>
+        <div class="col-md-12 date"><h4>Date</h4></div>
         <?php
         echo 'date de debut : '.$periode->getDateDebut().'<br>';
         echo 'date de debut : '.$periode->getDateFin().'<br>';

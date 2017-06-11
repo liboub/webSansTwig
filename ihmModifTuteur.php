@@ -12,7 +12,7 @@ require_once 'CControleurPeriodeStage.php';
 $entreprise = new CControleurEntreprise;
 $tuteur = new CControleurTuteur;
 $cControleurPeriodeStage = new CControleurPeriodeStage;
-// si une entreprise a ete rajouter precedament , on effectue son enregistrement
+// si une entreprise a ete rajouter precedament , on effectue les modifications
 if (isset($_POST['nom'] , $_POST['adnum'] , $_POST['adrue'] , $_POST['adville'] , $_POST['adcp'] ,
 $_POST['tel'] , $_POST['mail'] , $_POST['siret'] , $_POST['ape'])) {
   $donnees = array(
@@ -26,17 +26,28 @@ $_POST['tel'] , $_POST['mail'] , $_POST['siret'] , $_POST['ape'])) {
       "siret"=>$_POST['siret'],
       "ape"=>$_POST['ape']);
 }
-//on recupere l id de l'entreprise que le formulaire de ihmModifEntreprise a envoyer
-$idEntreprise = $_GET['idEntreprise'];
-// on modifie les donnees de l'entreprise
-$modifierEntreprise = $entreprise->modifierEntreprise($donnees,$idEntreprise);
 // on recupere l'idPeriode
-$idPeriode = 31 ;
-//     $idPeriode =  $_COOKIE['idPeriode'];
+   $idPeriode =  $_COOKIE['idPeriode'];
+// si on recupere l'idEntreprise via get alors on modifie une entrerise existante
+if (isset($_GET['idEntreprise'])) {
+  //on recupere l id de l'entreprise que le formulaire de ihmModifEntreprise a envoyer
+  $idEntreprise = $_GET['idEntreprise'];
+  // on modifie les donnees de l'entreprise
+  $modifierEntreprise = $entreprise->modifierEntreprise($donnees,$idEntreprise);
+}else {
+  // on ajoute l'entreprise et recupere l'id de l'entreprise
+  $idNouvelleEntreprisePeriode = $entreprise->ajouterEntreprise($donnees);
+  // on modifie l'id entreprise de la periode
+  $asignerUneEntreprise = $cControleurPeriodeStage->assignerEntrepriseSansRedirection($idPeriode, $idNouvelleEntreprisePeriode);
+
+}
+
 // on va chercher les donnees de la periode
 $periode=$cControleurPeriodeStage->unePeriode($idPeriode);
 // on va chercher les infos sur le tuteur
 $unTuteur=$tuteur->unTuteur($periode->getIdTuteur());
+// on recupere la lise des tuteur par entreprise
+$listeTuteur = $tuteur->listeTuteur($periode->getIdEntreprise());
  ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -64,8 +75,8 @@ $unTuteur=$tuteur->unTuteur($periode->getIdTuteur());
     <div class = "container" >
       <div class = "row">
         <div class="col-md-8">
-        <h3> tuteur </h3>
-        <form  method="Post" action="ihmRecap.php">
+        <h3> vous pouvez modifier les informations du tuteur ici </h3>
+        <form  method="Post" action="ihmModifRecap.php">
 
      <div class="form-group">
        <label for="dateDebut">nom du tuteur :</label>
@@ -86,7 +97,39 @@ $unTuteur=$tuteur->unTuteur($periode->getIdTuteur());
        <button type="submit" class="btn btn-default">envoyer</button>
          </form>
     </div>
+    </div>
+    <div class = "row">
+      <h3> vous pouvez choisir un nouveau tuteur dans le tableau </h3>
+      <table id="tableau" class="table table-striped table-bordered" width="100%" cellspacing="0">
+         <thead>
+             <tr>
 
+                     <th>nom</th>
+                     <th>prenom </th>
+
+
+             </tr>
+         </thead>
+
+         <tbody>
+      <?php
+           foreach ($listeTuteur as  $value) {
+             ?>
+                 <tr>
+                        <td><a href="assignerTuteur.php?id=<?php echo $value->getId();?>"><?php echo $value->getNom() ;?></a></td>
+                        <td><a href="assignerTuteur.php?id=<?php echo $value->getId();?>"><?php echo $value->getPrenom();?></a></td>
+
+                 </tr>
+      <?php
+      }
+      ?>
+         </tbody>
+      </table>
+    </div>
+    <div class = "row">
+      <a href="ihmModifNouveauTuteur.php" >vous pouvez aussi creer un nouveau tuteur </a>
+  </div>
+  </div>
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>

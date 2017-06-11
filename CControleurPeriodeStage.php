@@ -47,6 +47,15 @@ class CControleurPeriodeStage {
         header('location: ihmTuteur.php');
     }
 
+    public function assignerEntrepriseSansRedirection($idPeriode, $idEntreprise) {
+        require_once 'CBdd.php';
+            $cBdd= new CBdd();
+            $bdd=$cBdd->getConnection();
+        $q = $bdd->prepare('UPDATE periode SET idEntreprise="'.$idEntreprise.'" WHERE id='.$idPeriode.' ');
+        $q->execute();
+
+    }
+
     public function assignerTuteur($idPeriode, $idTuteur) {
         require_once 'CBdd.php';
             $cBdd= new CBdd();
@@ -54,6 +63,14 @@ class CControleurPeriodeStage {
         $q = $bdd->prepare('UPDATE periode SET idTuteur="'.$idTuteur.'" WHERE id='.$idPeriode.' ');
         $q->execute();
         header('location: ihmRecap.php');
+    }
+
+    public function assignerTuteurSansRedirection($idPeriode, $idTuteur) {
+        require_once 'CBdd.php';
+            $cBdd= new CBdd();
+            $bdd=$cBdd->getConnection();
+        $q = $bdd->prepare('UPDATE periode SET idTuteur="'.$idTuteur.'" WHERE id='.$idPeriode.' ');
+        $q->execute();
     }
 
     public function unePeriode($idPeriode){

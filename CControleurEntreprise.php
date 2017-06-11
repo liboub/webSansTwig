@@ -39,7 +39,41 @@ class CControleurEntreprise {
         return $bdd->lastInsertId();
     }
 
+        public function nouvelleEntreprisePeriode($donnees,$idPeriode)
+        {
+          // on va cree un nouvelle entreprise qui sera syncroniseé avec une periode donnée
+          // fichiers requis
+          require_once 'CBdd.php';
+          require_once 'CControleurPeriodeStage.php';
+          // on instancie les objets
+          $cBdd= new CBdd;
+          $periode = new CControleurPeriodeStage;
+          $bdd=$cBdd->getConnection();
+          // on cree la nouvelle entreprise
+       $stmt = $bdd->prepare('
+              INSERT INTO entreprise
+                  (nom, adnum, adrue, adville, adcp, tel, mail, siret, ape)
+              VALUES
+                  (:nom, :adnum, :adrue, :adville, :adcp, :tel, :mail, :siret, :ape)
+          ');
 
+          $stmt->bindParam(':nom', $donnees['nom']);
+          $stmt->bindParam(':adnum', $donnees['adnum']);
+          $stmt->bindParam(':adrue', $donnees['adrue']);
+          $stmt->bindParam(':adville', $donnees['adville']);
+          $stmt->bindParam(':adcp', $donnees['adcp']);
+          $stmt->bindParam(':tel', $donnees['tel']);
+          $stmt->bindParam(':mail', $donnees['mail']);
+          $stmt->bindParam(':siret', $donnees['siret']);
+          $stmt->bindParam(':ape', $donnees['ape']);
+
+          $stmt->execute();
+          // on recupere l'id de l'entreprise
+          $idEntreprise = $bdd->lastInsertId();
+
+          // on modifie l'id entreprise dans periode
+        $modifId = $periode->assignerEntreprise($idPeriode,$idEntreprise);
+        }
 
     public function modifierEntreprise($donnees,$id){
         require_once 'CBdd.php';

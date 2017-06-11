@@ -5,13 +5,17 @@ if (empty($_SESSION['idStagiaire'])) {
     header('Location: index.php');
     exit;
 }
+// fichier requis
+require 'CControleurPeriodeStage.php';
+// on instancie les objets
+$CControleurPeriodeStage = new CControleurPeriodeStage;
+// on recupere l'id periode
 $idPeriode = $_GET['idPeriode'];
 // on cree le cookie id periode
 setcookie("idPeriode",$idPeriode,time()+3600);
-require 'CControleurPeriodeStage.php';
-$CControleurPeriodeStage = new CControleurPeriodeStage;
+// on va chercher les infos de la periode
 $periode = $CControleurPeriodeStage->unePeriode($idPeriode);
-$idStagiaire = $_SESSION['idStagiaire'];
+
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -46,7 +50,7 @@ $idStagiaire = $_SESSION['idStagiaire'];
   <div class = "row">
     <div class="col-md-8">
     <h3> periode </h3>
-    <form  method="Post" action="ihmModifEntreprise.php?idEntreprise=<?php echo $periode->getIdEntreprise(); ?>">
+    <form  method="Post" action="ihmModifEntreprise.php">
       <p> les dates sont a ajouter au format 2015-12-13 </p>
  <div class="form-group">
    <label for="dateDebut" class="col-md-2 col-form-label">demarre le :</label>

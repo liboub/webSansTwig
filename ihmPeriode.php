@@ -1,13 +1,16 @@
 <?php
 session_start();
-
+// si l'utilisateur n'est pas connecter , on le vire
 if (empty($_SESSION['idStagiaire'])) {
     header('Location: index.php');
     exit;
 }
 $id = $_SESSION['idStagiaire'];
+// les fichiers requis
 require 'CControleurStagiaire.php';
+// on istancie les objets
 $ccontroleurStagiaire = new CControleurStagiaire;
+// on recupere les donnees pour modifier la periode
 if (isset($_POST['nom'],$_POST['prenom'],$_POST['mail'],$_POST['tel'])) {
   $nom = $_POST['nom'];
   $prenom = $_POST['prenom'];
@@ -17,6 +20,7 @@ if (isset($_POST['nom'],$_POST['prenom'],$_POST['mail'],$_POST['tel'])) {
       "prenom" => $prenom,
       "mail" => $mail,
       "tel" => $tel);
+// on modifie la periode
 $stagiaire = $ccontroleurStagiaire->modifierStagiaire($données, $id);
 }
 
