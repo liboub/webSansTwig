@@ -9,22 +9,17 @@ require 'CControleurTuteur.php';
 require_once 'CControleurPeriodeStage.php';
 require_once 'CControleurEntreprise.php';
 require_once 'CControleurStagiaire.php';
-
 // on instancie les objets
 $cControleurTuteur = new CControleurTuteur;
 $cControleurPeriodeStage = new CControleurPeriodeStage();
 $cControleurEntreprise=new CControleurEntreprise;
 $cControleurStagiaire=new CControleurStagiaire();
 // on recupere l'id de la periode
-var_dump($_COOKIE['idPeriode']);
 $idPeriode = $_COOKIE['idPeriode'];
 // on va chercher les infos de la periode
 $periode=$cControleurPeriodeStage->unePeriode($idPeriode);
-
-$idEntreprise = $periode->getIdEntreprise();
-var_dump($idEntreprise);
 // on va chercher les infos de l'entreprise
-$entreprise=$cControleurEntreprise->uneEntreprise($idEntreprise);
+$entreprise=$cControleurEntreprise->uneEntreprise($periode->getIdEntreprise());
 // on va chercher les infos du stagiaire
 $stagiaire=$cControleurStagiaire->unStagiaire($periode->getIdStagiaire());
 // on va chercher les infos du tuteur
