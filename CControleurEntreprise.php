@@ -100,6 +100,7 @@ class CControleurEntreprise {
        require_once 'CBdd.php';
         $cBdd= new CBdd();
         $bdd=$cBdd->getConnection();
+        var_dump($idEntreprise);
 
        $q = $bdd->query('SELECT * FROM entreprise WHERE id = '.$idEntreprise.'');
        $donnees = $q->fetch(PDO::FETCH_ASSOC);

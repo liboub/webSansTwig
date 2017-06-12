@@ -16,12 +16,15 @@ $cControleurPeriodeStage = new CControleurPeriodeStage();
 $cControleurEntreprise=new CControleurEntreprise;
 $cControleurStagiaire=new CControleurStagiaire();
 // on recupere l'id de la periode
- $idPeriode = 34;
-//$idPeriode = $_COOKIE['idPeriode']
+var_dump($_COOKIE['idPeriode']);
+$idPeriode = $_COOKIE['idPeriode'];
 // on va chercher les infos de la periode
 $periode=$cControleurPeriodeStage->unePeriode($idPeriode);
+
+$idEntreprise = $periode->getIdEntreprise();
+var_dump($idEntreprise);
 // on va chercher les infos de l'entreprise
-$entreprise=$cControleurEntreprise->uneEntreprise($periode->getIdEntreprise());
+$entreprise=$cControleurEntreprise->uneEntreprise($idEntreprise);
 // on va chercher les infos du stagiaire
 $stagiaire=$cControleurStagiaire->unStagiaire($periode->getIdStagiaire());
 // on va chercher les infos du tuteur

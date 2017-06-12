@@ -7,8 +7,8 @@ if (empty($_SESSION['idStagiaire'])) {
     exit;
 }
 // bug possible a cause de champs nuls dans la bdd
-//$idStagiaire = $_SESSION['idStagiaire'];
-$idStagiaire = 6;
+$idStagiaire = $_SESSION['idStagiaire'];
+
 require 'CControleurStagiaire.php';
 require 'CControleurPeriodeStage.php';
 // on va chercher les infos personnelles du stagiaire

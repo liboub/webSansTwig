@@ -92,7 +92,7 @@ class CControleurPeriodeStage {
             
 
             // on recupere les periodes des stage du stagiaire
-       $q = $bdd->query('SELECT id ,dateDebut , dateFin , idTuteur , idEntreprise , idStagiaire FROM periode WHERE Periode.idStagiaire = '.$idStagiaire.' ' );
+       $q = $bdd->query('SELECT id ,dateDebut , dateFin , idTuteur , idEntreprise , idStagiaire FROM periode WHERE periode.idStagiaire = '.$idStagiaire.' ' );
         $donneesPeriode = $q->fetchALL(PDO::FETCH_NUM);
         // on recupere les entreprises du stagiaire
       foreach ($donneesPeriode as  $value) {
