@@ -89,6 +89,7 @@ class CControleurPeriodeStage {
        require_once 'CBdd.php';
             $cBdd= new CBdd();
             $bdd=$cBdd->getConnection();
+            
 
             // on recupere les periodes des stage du stagiaire
        $q = $bdd->query('SELECT id ,dateDebut , dateFin , idTuteur , idEntreprise , idStagiaire FROM periode WHERE Periode.idStagiaire = '.$idStagiaire.' ' );

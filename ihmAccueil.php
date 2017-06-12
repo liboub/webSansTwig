@@ -6,16 +6,17 @@ if (empty($_SESSION['idStagiaire'])) {
     header('Location: index.php');
     exit;
 }
-//$id = $_SESSION['idStagiaire'];
-$id = 6;
+// bug possible a cause de champs nuls dans la bdd
+//$idStagiaire = $_SESSION['idStagiaire'];
+$idStagiaire = 6;
 require 'CControleurStagiaire.php';
 require 'CControleurPeriodeStage.php';
 // on va chercher les infos personnelles du stagiaire
 $ccontroleurStagiaire = new CControleurStagiaire;
-$stagiaire = $ccontroleurStagiaire->unStagiaire($id);
+$stagiaire = $ccontroleurStagiaire->unStagiaire($idStagiaire);
 // on va chercher la liste des periodes  de stage du stagiaire
 $cControleurPeriodeStage = new CControleurPeriodeStage();
-$periode=$cControleurPeriodeStage->listePeriodeStagiaire($id);
+$periode=$cControleurPeriodeStage->listePeriodeStagiaire($idStagiaire);
 
 ?>
 <!DOCTYPE html>
